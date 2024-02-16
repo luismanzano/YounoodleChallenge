@@ -4,6 +4,21 @@ import './App.css';
 
 function App() {
 
+  useEffect(() => {
+    const parseCSV = (filePath) => {
+      Papa.parse(filePath, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          return results.data;
+        }
+      });
+    
+    }
+
+    const investors = parseCSV(`${process.env.PUBLIC_URL}/investors.csv`);
+    const startups = parseCSV(`${process.env.PUBLIC_URL}/startups.csv`);
+  }, []);
 
 
 
