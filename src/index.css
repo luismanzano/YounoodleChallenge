@@ -20,18 +20,32 @@ body {
   color: #DE1F3F;
 }
 
-.match {
+.matches {
     display: flex;
+    padding: 2px 10px;
+    scroll-behavior: smooth;
+    overflow: scroll;
 }
 
-.investorName {
-    min-width: 10%;
+h3.investorName {
     text-align: left;
-    max-width: 20%;
+    font-size: 24px;
+    border-bottom: 3px solid gray;
+    border-right: 3px solid gray;
+    padding-left: 10px;
+    margin: 0;
 }
 
+.startups {
+    border-right: 3px solid gray;
+    padding: 0 10px;
+    margin: 0;
+}
 
-
+span.startup {
+    display: block;
+    padding: 10px 0px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

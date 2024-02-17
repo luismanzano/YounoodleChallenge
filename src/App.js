@@ -71,8 +71,15 @@ const groupByIndustry = (matches) => {
                     return (
                       <div key={index} className="match">
                         <h3 className='investorName'>{match.investorName}</h3>
-                        <p className='interest'>Interest: {match.investorIndustry}</p>
-                        <p className='startupList'>Startups: {match.startups.join(', ')}</p>
+                        <p className='startups'>
+                        {/* Display each startup name in a line */}
+                        {match.startups.map((startup, index) => {
+                          return(
+                            <span key={index} className='startup'>{startup}</span>
+                          )
+                        })}
+
+                          </p>
                       </div>
                     )
                   })
