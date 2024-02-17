@@ -1,25 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Papa from 'papaparse';
 import investorsStartups from '../utils/matcher';
+import parseCSV from "../utils/parseCSV";
 
 function Home() {
   const [matches, setMatches] = useState([]);
-
-  // Function to parse CSV file to JSON
-const parseCSV = (filePath) => {
-  return new Promise((resolve, reject) => {
-    Papa.parse(filePath, {
-      download: true,
-      header: true,
-      complete: function(results) {
-        resolve(results.data);
-      },
-      error: function(err) {
-        reject(err);
-      }
-    });
-  });
-}
 
 // Function that capitalizes the first letter of a given string and returns the new string
 const capitalizeFirstLetter = (string) => {
