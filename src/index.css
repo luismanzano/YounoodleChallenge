@@ -7,6 +7,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.industry {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: block;
+}
+
+.industryTitle {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  color: #DE1F3F;
+}
+
+.match {
+    display: flex;
+}
+
+.investorName {
+    min-width: 10%;
+    text-align: left;
+    max-width: 20%;
+}
+
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
