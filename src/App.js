@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import Papa from 'papaparse';
-import investorsStartups from './utils/matcher';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './Home/index'
 
 function App() {
  
   return (
-    
-    <div className="App">
-      <Home/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
