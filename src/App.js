@@ -22,6 +22,11 @@ const parseCSV = (filePath) => {
   });
 }
 
+// Function that capitalizes the first letter of a given string and returns the new string
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 // Group by the matches by investor's industry and return an array of objects
 const groupByIndustry = (matches) => {
   return matches.reduce((acc, match) => {
@@ -45,12 +50,18 @@ const groupByIndustry = (matches) => {
     const startupsData = await parseCSV(`${process.env.PUBLIC_URL}/startups.csv`);
 
     const matching = investorsStartups(await investorsData, await startupsData);
-    setMatches(groupByIndustry(matching));
+    const matchesGrouped = groupByIndustry(matching);
+    localStorage.setItem('matchedData', JSON.stringify(matchesGrouped));
+    setMatches(matchesGrouped);
   };
 
-  fetchData();
-
-  
+  const storedMatches = localStorage.getItem('matchedData');
+  if (storedMatches) {
+    console.log('getting the data from localstorage');
+    setMatches(JSON.parse(storedMatches));
+  } else {
+    fetchData();
+  }
 
   }, []);
 
@@ -59,18 +70,18 @@ const groupByIndustry = (matches) => {
   return (
     
     <div className="App">
-      <h1>Investor-Startup Matcher</h1>
+      <h1 className='title'>Investor-Startup Matcher</h1>
       {
         matches.map((match, index)=> {
           return(
             <div key={index} className="industry">
-              <h2 className='industryTitle'>Industry: {match.industry}</h2>
+              <h2 className='industryTitle'>{capitalizeFirstLetter(match.industry)}</h2>
               <div className="matches">
                 {
                   match.matches.map((match, index) => {
                     return (
                       <div key={index} className="match">
-                        <h3 className='investorName'>{match.investorName}</h3>
+                        <h3 tabIndex={0} className='investorName'>{match.investorName}</h3>
                         <p className='startups'>
                         {/* Display each startup name in a line */}
                         {match.startups.map((startup, index) => {
