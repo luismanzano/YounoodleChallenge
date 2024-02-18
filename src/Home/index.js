@@ -112,7 +112,7 @@ const addStartup = (investor) => {
                         {/* Display each startup name in a line */}
                         {match.startups.map((startup, index) => {
                           return(
-                            <span key={index} className='startup'>{startup} <button onClick={() => deleteStartup(startup, match.investorId)}>Delete</button></span>
+                            <span key={index} className='startup'>{startup} <button aria-label={`Delete ${startup}`} onClick={() => deleteStartup(startup, match.investorId)}>Delete</button></span>
                           )
                         })}
                         {match.startups.length < 10 && <button onClick={() => addStartup(match.investorId)}>Add Startup</button>}
