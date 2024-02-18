@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Papa from 'papaparse';
 import investorsStartups from '../utils/matcher';
 import parseCSV from "../utils/parseCSV";
 
@@ -27,6 +26,7 @@ const groupByIndustry = (matches) => {
   , []);
 };
 
+// Deleting startups from the list
 const deleteStartup = (startupIndex, investorIndex) => {
   console.log('startupIndex', startupIndex);
   setDeletedStartups(prevDeletedStartups => {
@@ -35,6 +35,23 @@ const deleteStartup = (startupIndex, investorIndex) => {
       sessionStorage.setItem('deletedStartups', JSON.stringify(newDeletedStartups));
       return newDeletedStartups;
     });
+}
+
+// Adding startup back to the list
+const addStartup = (investor) => {
+  console.log('addStartup');
+  // Remove the last deleted startup from the list of deleted startups
+  setDeletedStartups(prevDeletedStartups => {
+    const newDeletedStartups = {...prevDeletedStartups};
+    console.log(`newDeletedStartups ${investor}`, newDeletedStartups[investor]);
+     if (newDeletedStartups[investor] && newDeletedStartups[investor].length > 0) {
+      // Remove the last startup from the list for this investor
+      newDeletedStartups[investor] = newDeletedStartups[investor].slice(0, -1);
+    }
+    sessionStorage.setItem('deletedStartups', JSON.stringify(newDeletedStartups));
+    return newDeletedStartups;
+  }
+  );
 }
 
     // Use effect to call the parsing function when component mounts and update investor list
@@ -48,16 +65,14 @@ const deleteStartup = (startupIndex, investorIndex) => {
     localStorage.setItem('matchedData', JSON.stringify(matchesGrouped));
     setMatches(matchesGrouped);
   };
-    
 
-  
-
-  if (sessionStorage.getItem('investorsData') &&  sessionStorage.getItem('startupsData')) {
-    const matching = investorsStartups(JSON.parse(sessionStorage.getItem('investorsData')), JSON.parse(sessionStorage.getItem('startupsData')), deletedStartups);
+  if (sessionStorage.getItem('investorsData') && localStorage.getItem('startupsData')) {
+    const matching = investorsStartups(JSON.parse(sessionStorage.getItem('investorsData')), JSON.parse(localStorage.getItem('startupsData')), deletedStartups);
    
     const matchesGrouped = groupByIndustry(matching);
 
     setMatches(matchesGrouped);
+    console.log("getting from session storage");
   } else if (localStorage.getItem('investorsData') && localStorage.getItem('startupsData')) {
     const matching = investorsStartups(JSON.parse(localStorage.getItem('investorsData')), JSON.parse(localStorage.getItem('startupsData')), deletedStartups);
     const matchesGrouped = groupByIndustry(matching);
@@ -100,7 +115,7 @@ const deleteStartup = (startupIndex, investorIndex) => {
                             <span key={index} className='startup'>{startup} <button onClick={() => deleteStartup(startup, match.investorId)}>Delete</button></span>
                           )
                         })}
-
+                        {match.startups.length < 10 && <button onClick={() => addStartup(match.investorId)}>Add Startup</button>}
                           </p>
                       </div>
                     )
