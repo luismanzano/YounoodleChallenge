@@ -4,53 +4,94 @@
 
 body {
   margin: 0;
-  font-family: 'Open Sans';
+  font-family: 'Nunito', sans-serif; /* Example for a different font */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #4A4A4A;
+  background: #f4f7f6; /* A light background color */
+}
+
+.title {
+  text-align: center;
+  color: #2c3e50; /* A darker shade for the title */
+  margin: 2rem 0;
+  font-weight: 700;
 }
 
 .industry {
   max-width: 1240px;
-  margin: 0 auto;
-  display: block;
+  margin: 1rem auto;
+  /* display: flex; */
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .industryTitle {
-  font-size: 3rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
-  text-align: left;
   color: #DE1F3F;
-  padding: 0 10px;
+  padding: 0.5rem;
+}
+
+.match {
+    padding: 0 13px;
 }
 
 .matches {
     display: flex;
-    padding: 2px 10px;
-    scroll-behavior: smooth;
+    /* flex-direction: column; */
+    padding: 1rem;
+    background: white; /* Cards have a white background */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadows for cards */
+    border-radius: 10px; /* Rounded corners for cards */
+    margin: 1rem;
     overflow: scroll;
+    /* max-width: 300px; Fixed width for each card */
 }
 
 h3.investorName {
-    text-align: left;
-    font-size: 24px;
-    border-bottom: 3px solid gray;
-    border-right: 3px solid gray;
-    padding-left: 10px;
+    font-size: 1.5rem;
+    color: #34495e;
+    padding: 0.5rem 0;
     margin: 0;
 }
 
 .startups {
-    border-right: 3px solid gray;
-    padding: 0 10px;
-    margin: 0;
+    padding: 1rem 0;
 }
 
 span.startup {
-    display: block;
-    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ecf0f1;
 }
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+button {
+  background-color: #3498db; /* Button color */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: background-color 0.3s ease; /* Transition for hover effect */
+}
+
+button:hover {
+  background-color: #2980b9; /* Darker shade on hover */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .industry {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .matches {
+    width: 90%;
+    max-width: unset;
+  }
 }

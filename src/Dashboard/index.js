@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import parseCSV from '../utils/parseCSV';
+import './styles.css';
 
 function Dashboard() {
   const [investors, setInvestors] = useState([]);
@@ -75,6 +76,7 @@ const editInvestorName = (investorId) => {
       <form onSubmit={addInvestor}>
         <input 
           type="text" 
+          className='investorNameInput'
           placeholder="Investor Name" 
           value={investorName} 
           onChange={e => setInvestorName(e.target.value)} 
