@@ -59,8 +59,7 @@ const editInvestorName = (investorId) => {
   );
   setInvestors(updatedInvestors);
   // Update session/local storage
-sessionStorage.setItem('investorsData', JSON.stringify(updatedInvestors));
-localStorage.setItem('investorsData', JSON.stringify(updatedInvestors));
+  sessionStorage.setItem('investorsData', JSON.stringify(updatedInvestors));
 };
 
     
