@@ -9,52 +9,52 @@ function Dashboard() {
   const [industry, setIndustry] = useState('any');
 
   useEffect(() => {
-    // Load investors from session/local storage
-    const sessionData = sessionStorage.getItem('investorsData');
-    const localData = localStorage.getItem('investorsData');
-    if (sessionData) {
-      setInvestors(JSON.parse(sessionData));
-    } else if (localData) {
+    const loadData = async () => {
+      const sessionData = sessionStorage.getItem('investorsData');
+      const localData = localStorage.getItem('investorsData');
+      
+      if (sessionData) {
+        setInvestors(JSON.parse(sessionData));
+      } else if (localData) {
         setInvestors(JSON.parse(localData));
-        } else {
-            const fetchData = async () => {
-            const investorsData = await parseCSV(`${process.env.PUBLIC_URL}/investors.csv`);
-            const startupsData = await parseCSV(`${process.env.PUBLIC_URL}/startups.csv`);
-            setInvestors(investorsData);
-            localStorage.setItem('investorsData', JSON.stringify(investorsData));
-            localStorage.setItem('startupsData', JSON.stringify(startupsData));
-  };
-            fetchData();
-            
-        }
+      } else {
+        const [investorsData, startupsData] = await Promise.all([
+          parseCSV(`${process.env.PUBLIC_URL}/investors.csv`),
+          parseCSV(`${process.env.PUBLIC_URL}/startups.csv`)
+        ]);
+        setInvestors(investorsData);
+        localStorage.setItem('investorsData', JSON.stringify(investorsData));
+        localStorage.setItem('startupsData', JSON.stringify(startupsData));
+      }
+    };
+
+    loadData();
   }, []);
 
 //   Add investor
-const addInvestor = (event) => {
+  const addInvestor = (event) => {
     event.preventDefault();
-    const newInvestor = { name: investorName, industry: industry };
-    const updatedMatches = [...investors, newInvestor];
-    setInvestors(updatedMatches);
-    sessionStorage.setItem('investorsData', JSON.stringify(updatedMatches));
+    const newInvestor = { name: investorName, industry };
+    setInvestors(prevInvestors => [...prevInvestors, newInvestor]);
+    sessionStorage.setItem('investorsData', JSON.stringify([...investors, newInvestor]));
     setInvestorName('');
     setIndustry('any');
-    alert('New Investor Successfully Added')
+    alert('New Investor Successfully Added');
   };
 
 //   Edit investor name
-const editInvestorName = (investorId) => {
+  const editInvestorName = (investorId) => {
     const newName = prompt('Enter new name');
-    if (newName === null) {
-        alert("Name cannot be empty");
-        return;
+    if (!newName) {
+      alert("Name cannot be empty");
+      return;
     }
-  const updatedInvestors = investors.map((investor, index) => 
-    index === investorId ? { ...investor, name: newName } : investor
-  );
-  setInvestors(updatedInvestors);
-  // Update session/local storage
-  sessionStorage.setItem('investorsData', JSON.stringify(updatedInvestors));
-};
+    const updatedInvestors = investors.map((investor, index) => 
+      index === investorId ? { ...investor, name: newName } : investor
+    );
+    setInvestors(updatedInvestors);
+    sessionStorage.setItem('investorsData', JSON.stringify(updatedInvestors));
+  };
 
     
 
