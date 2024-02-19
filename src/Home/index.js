@@ -29,7 +29,6 @@ const groupByIndustry = (matches) => {
 
 // Deleting startups from the list
 const deleteStartup = (startupIndex, investorIndex) => {
-  console.log('startupIndex', startupIndex);
   setDeletedStartups(prevDeletedStartups => {
       const newDeletedStartups = {...prevDeletedStartups};
       newDeletedStartups[investorIndex] = newDeletedStartups[investorIndex] ? [...newDeletedStartups[investorIndex], startupIndex] : [startupIndex];
@@ -40,11 +39,9 @@ const deleteStartup = (startupIndex, investorIndex) => {
 
 // Adding startup back to the list
 const addStartup = (investor) => {
-  console.log('addStartup');
   // Remove the last deleted startup from the list of deleted startups
   setDeletedStartups(prevDeletedStartups => {
     const newDeletedStartups = {...prevDeletedStartups};
-    console.log(`newDeletedStartups ${investor}`, newDeletedStartups[investor]);
      if (newDeletedStartups[investor] && newDeletedStartups[investor].length > 0) {
       // Remove the last startup from the list for this investor
       newDeletedStartups[investor] = newDeletedStartups[investor].slice(0, -1);
@@ -62,7 +59,6 @@ const addStartup = (investor) => {
     const startupsData = await parseCSV(`${process.env.PUBLIC_URL}/startups.csv`);
     const matching = investorsStartups(await investorsData, await startupsData);
     const matchesGrouped = groupByIndustry(matching);
-    console.log("matchesGrouped", matchesGrouped);
     localStorage.setItem('matchedData', JSON.stringify(matchesGrouped));
     setMatches(matchesGrouped);
   };
@@ -73,12 +69,10 @@ const addStartup = (investor) => {
     const matchesGrouped = groupByIndustry(matching);
 
     setMatches(matchesGrouped);
-    console.log("getting from session storage");
   } else if (localStorage.getItem('investorsData') && localStorage.getItem('startupsData')) {
     const matching = investorsStartups(JSON.parse(localStorage.getItem('investorsData')), JSON.parse(localStorage.getItem('startupsData')), deletedStartups);
     const matchesGrouped = groupByIndustry(matching);
     setMatches(matchesGrouped);
-    console.log("matches grouped on the else if");
   } else {
     fetchData();
   }

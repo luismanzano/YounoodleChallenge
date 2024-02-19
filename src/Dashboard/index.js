@@ -9,24 +9,18 @@ function Dashboard() {
   const [industry, setIndustry] = useState('any');
 
   useEffect(() => {
-    console.log('useEffect');
     // Load investors from session/local storage
     const sessionData = sessionStorage.getItem('investorsData');
     const localData = localStorage.getItem('investorsData');
     if (sessionData) {
-        console.log('checking for session data');
       setInvestors(JSON.parse(sessionData));
     } else if (localData) {
-        console.log("checking for local data");
         setInvestors(JSON.parse(localData));
         } else {
-            console.log('fetching data');
             const fetchData = async () => {
             const investorsData = await parseCSV(`${process.env.PUBLIC_URL}/investors.csv`);
-            console.log('investorsData', investorsData);
             const startupsData = await parseCSV(`${process.env.PUBLIC_URL}/startups.csv`);
             setInvestors(investorsData);
-            console.log('investors', investors);
             localStorage.setItem('investorsData', JSON.stringify(investorsData));
             localStorage.setItem('startupsData', JSON.stringify(startupsData));
   };
@@ -40,7 +34,6 @@ const addInvestor = (event) => {
     event.preventDefault();
     const newInvestor = { name: investorName, industry: industry };
     const updatedMatches = [...investors, newInvestor];
-    console.log('updatedMatches', updatedMatches);
     setInvestors(updatedMatches);
     sessionStorage.setItem('investorsData', JSON.stringify(updatedMatches));
     setInvestorName('');
@@ -55,8 +48,6 @@ const editInvestorName = (investorId) => {
         alert("Name cannot be empty");
         return;
     }
-    console.log('newName', newName);
-    console.log('investorId', investorId);
   const updatedInvestors = investors.map((investor, index) => 
     index === investorId ? { ...investor, name: newName } : investor
   );
