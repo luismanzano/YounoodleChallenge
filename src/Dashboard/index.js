@@ -68,6 +68,7 @@ function Dashboard() {
         {/* Input to add investor */}
       <form onSubmit={addInvestor}>
         <input 
+          aria-label='Investor Name Input'
           type="text" 
           className='investorNameInput'
           placeholder="Investor Name" 
@@ -76,6 +77,7 @@ function Dashboard() {
           required 
         />
         <select 
+          aria-label='Investor Industry Input'
           name="industry" 
           value={industry} 
           onChange={e => setIndustry(e.target.value)} 

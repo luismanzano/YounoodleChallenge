@@ -1,19 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 body {
   margin: 0;
-  font-family: 'Nunito', sans-serif; /* Example for a different font */
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #4A4A4A;
-  background: #f4f7f6; /* A light background color */
+  background: #f4f7f6;
 }
 
 .title {
   text-align: center;
-  color: #2c3e50; /* A darker shade for the title */
+  color: #2c3e50; 
   margin: 2rem 0;
   font-weight: 700;
 }
@@ -21,7 +19,6 @@ body {
 .industry {
   max-width: 1240px;
   margin: 1rem auto;
-  /* display: flex; */
   flex-wrap: wrap;
   justify-content: space-around;
 }
@@ -39,14 +36,11 @@ body {
 
 .matches {
     display: flex;
-    /* flex-direction: column; */
     padding: 1rem;
-    background: white; /* Cards have a white background */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadows for cards */
-    border-radius: 10px; /* Rounded corners for cards */
-    margin: 1rem;
+    background: white; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
     overflow: scroll;
-    /* max-width: 300px; Fixed width for each card */
 }
 
 h3.investorName {
@@ -69,21 +63,20 @@ span.startup {
 }
 
 button {
-  background-color: #3498db; /* Button color */
+  background-color: #3498db; 
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;
   margin-left: 5px;
-  transition: background-color 0.3s ease; /* Transition for hover effect */
+  transition: background-color 0.3s ease; 
 }
 
 button:hover {
-  background-color: #2980b9; /* Darker shade on hover */
+  background-color: #2980b9; 
 }
 
-/* Responsive design for smaller screens */
 @media (max-width: 768px) {
   .industry {
     flex-direction: column;

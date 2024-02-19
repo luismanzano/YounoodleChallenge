@@ -1,6 +1,6 @@
 /* Base styling */
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     background: #f5f5f5;
     margin: 0;
     padding: 0;
@@ -94,7 +94,7 @@ body {
     margin: 0.2em auto;
     align-items: center;
     column-gap: 1em;
-    width: 600px;
+    max-width: 600px;
     justify-content: space-between;
     align-content: space-between;
 }
@@ -102,7 +102,7 @@ body {
 form {
     display: flex;
     justify-content: space-between;
-    width: 600px;
+    max-width: 600px;
     margin: 0 auto;
     column-gap: 5px;
 }
