@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import investorsStartups from '../utils/matcher';
 import parseCSV from "../utils/parseCSV";
+import PaginationButton from "../PaginationButton";
 
 function Home() {
   const [matches, setMatches] = useState([]);
@@ -126,6 +127,7 @@ const addStartup = (investor) => {
           )
         })
       }
+      <PaginationButton text="Dashboard" href='/dashboard' />
     </>
   );
 }

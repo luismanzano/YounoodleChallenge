@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import parseCSV from '../utils/parseCSV';
 import './styles.css';
+import PaginationButton from '../PaginationButton';
 
 function Dashboard() {
   const [investors, setInvestors] = useState([]);
@@ -44,6 +45,7 @@ const addInvestor = (event) => {
     sessionStorage.setItem('investorsData', JSON.stringify(updatedMatches));
     setInvestorName('');
     setIndustry('any');
+    alert('New Investor Successfully Added')
   };
 
 //   Edit investor name
@@ -104,6 +106,7 @@ const editInvestorName = (investorId) => {
                 </li>;
         })}
         </ul>
+        <PaginationButton text='Home' href='/' />
     </div>
   );
 }

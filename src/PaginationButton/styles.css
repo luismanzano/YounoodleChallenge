@@ -1,0 +1,20 @@
+a {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    padding: 20px;
+    background-color: #de1f40;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+/* Hover for the button */
+a:hover {
+    background-color: #d55268;
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
