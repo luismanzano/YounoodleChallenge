@@ -3,39 +3,25 @@ import investorsStartups from '../utils/matcher';
 import parseCSV from "../utils/parseCSV";
 import PaginationButton from "../PaginationButton";
 
+const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
+const groupByIndustry = (matches) => matches.reduce((acc, match) => {
+  const { investorIndustry: industry } = match;
+  const existing = acc.find(item => item.industry === industry);
+  existing ? existing.matches.push(match) : acc.push({ industry, matches: [match] });
+  return acc;
+}, []);
+
 function Home() {
   const [matches, setMatches] = useState([]);
   const [deletedStartups, setDeletedStartups] = useState({});
 
-// Function that capitalizes the first letter of a given string and returns the new string
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-// Group by the matches by investor's industry and return an array of objects
-const groupByIndustry = (matches) => {
-  return matches.reduce((acc, match) => {
-    const industry = match.investorIndustry;
-    const existing = acc.find(item => item.industry === industry);
-    if (existing) {
-      existing.matches.push(match);
-    } else {
-      acc.push({ industry, matches: [match] });
-    }
-    return acc;
-  }
-  , []);
-};
-
 // Deleting startups from the list
-const deleteStartup = (startupIndex, investorIndex) => {
-  setDeletedStartups(prevDeletedStartups => {
-      const newDeletedStartups = {...prevDeletedStartups};
-      newDeletedStartups[investorIndex] = newDeletedStartups[investorIndex] ? [...newDeletedStartups[investorIndex], startupIndex] : [startupIndex];
-      sessionStorage.setItem('deletedStartups', JSON.stringify(newDeletedStartups));
-      return newDeletedStartups;
-    });
-}
+  const deleteStartup = (startupIndex, investorIndex) => setDeletedStartups(prev => {
+    const updated = { ...prev, [investorIndex]: [...(prev[investorIndex] || []), startupIndex] };
+    sessionStorage.setItem('deletedStartups', JSON.stringify(updated));
+    return updated;
+  });
 
 // Adding startup back to the list
 const addStartup = (investor) => {
@@ -55,37 +41,27 @@ const addStartup = (investor) => {
     // Use effect to call the parsing function when component mounts and update investor list
   useEffect(() => {
     const fetchData = async () => {
-    const investorsData = await parseCSV(`${process.env.PUBLIC_URL}/investors.csv`);
-    const startupsData = await parseCSV(`${process.env.PUBLIC_URL}/startups.csv`);
-    const matching = investorsStartups(await investorsData, await startupsData);
-    const matchesGrouped = groupByIndustry(matching);
-    localStorage.setItem('matchedData', JSON.stringify(matchesGrouped));
-    setMatches(matchesGrouped);
-  };
+      const investorsData = await parseCSV(`${process.env.PUBLIC_URL}/investors.csv`);
+      const startupsData = await parseCSV(`${process.env.PUBLIC_URL}/startups.csv`);
+      const matchesGrouped = groupByIndustry(investorsStartups(investorsData, startupsData, deletedStartups));
+      localStorage.setItem('matchedData', JSON.stringify(matchesGrouped));
+      setMatches(matchesGrouped);
+    };
 
-  if (sessionStorage.getItem('investorsData') && localStorage.getItem('startupsData')) {
-    const matching = investorsStartups(JSON.parse(sessionStorage.getItem('investorsData')), JSON.parse(localStorage.getItem('startupsData')), deletedStartups);
-   
-    const matchesGrouped = groupByIndustry(matching);
-
-    setMatches(matchesGrouped);
-  } else if (localStorage.getItem('investorsData') && localStorage.getItem('startupsData')) {
-    const matching = investorsStartups(JSON.parse(localStorage.getItem('investorsData')), JSON.parse(localStorage.getItem('startupsData')), deletedStartups);
-    const matchesGrouped = groupByIndustry(matching);
-    setMatches(matchesGrouped);
-  } else {
-    fetchData();
-  }
-
-  
-
+    const sessionInvestors = sessionStorage.getItem('investorsData');
+    const localStartups = localStorage.getItem('startupsData');
+    if (sessionInvestors && localStartups) {
+      const matching = investorsStartups(JSON.parse(sessionInvestors), JSON.parse(localStartups), deletedStartups);
+      setMatches(groupByIndustry(matching));
+    } else if (!sessionInvestors && !localStartups) {
+      fetchData();
+    }
   }, [deletedStartups]);
 
-  useEffect (() => {
-       if (sessionStorage.getItem('deletedStartups')) {
-    setDeletedStartups(JSON.parse(sessionStorage.getItem('deletedStartups')));    
-  }
-}, []);
+   useEffect(() => {
+    const storedDeletedStartups = sessionStorage.getItem('deletedStartups');
+    if (storedDeletedStartups) setDeletedStartups(JSON.parse(storedDeletedStartups));
+  }, []);
 
 
 
